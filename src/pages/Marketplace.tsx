@@ -133,7 +133,7 @@ export function Marketplace() {
       ) : (
         <>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((p, i) => (
+            {products.map((p) => (
               <Link
                 key={p.id}
                 to={`/products/${p.id}`}
