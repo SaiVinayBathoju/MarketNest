@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext'
 import { MarketplaceProvider } from './contexts/MarketplaceContext'
+import { CartProvider } from './contexts/CartContext'
+import { WishlistProvider } from './contexts/WishlistContext'
 import { Layout } from './components/Layout'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { Home } from './pages/Home'
@@ -11,14 +13,24 @@ import { ProductDetail } from './pages/ProductDetail'
 import { BrandDashboard } from './pages/BrandDashboard'
 import { ProductForm } from './pages/ProductForm'
 import { Profile } from './pages/Profile'
+import { Cart } from './pages/Cart'
+import { Wishlist } from './pages/Wishlist'
+import { Checkout } from './pages/Checkout'
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <MarketplaceProvider>
-        <Layout>
-          <Routes>
+      <BrowserRouter
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true
+        }}
+      >
+        <CartProvider>
+          <WishlistProvider>
+            <MarketplaceProvider>
+              <Layout>
+                <Routes>
             <Route path="/" element={<Home />} />
             <Route
               path="/login"
@@ -84,10 +96,36 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute requireRole="user">
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/wishlist"
+              element={
+                <ProtectedRoute requireRole="user">
+                  <Wishlist />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/checkout"
+              element={
+                <ProtectedRoute requireRole="user">
+                  <Checkout />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Layout>
-        </MarketplaceProvider>
+                </Routes>
+              </Layout>
+            </MarketplaceProvider>
+          </WishlistProvider>
+        </CartProvider>
       </BrowserRouter>
     </AuthProvider>
   )

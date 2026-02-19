@@ -1,6 +1,7 @@
 import { useEffect, useRef, useLayoutEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useMarketplace } from '../contexts/MarketplaceContext'
+import { ProductCard } from '../components/ProductCard'
 
 const CATEGORIES = ['All', 'Apparel', 'Footwear', 'Accessories', 'Bags', 'Jewelry', 'Other']
 
@@ -134,36 +135,7 @@ export function Marketplace() {
         <>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((p) => (
-              <Link
-                key={p.id}
-                to={`/products/${p.id}`}
-                state={{ from: 'marketplace' }}
-                className="group block bg-white overflow-hidden rounded-sm shadow-soft hover:shadow-card transition-all duration-300"
-              >
-                <div className="aspect-[3/4] overflow-hidden">
-                  <img
-                    src={p.image_url}
-                    alt={p.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-medium text-ink group-hover:text-gold-dark transition-colors">
-                    {p.name}
-                  </h3>
-                  {p.category && (
-                    <p className="text-xs text-charcoal/60 mt-1 tracking-wide">{p.category}</p>
-                  )}
-                  {p.description && (
-                    <p className="text-sm text-charcoal/70 mt-2 line-clamp-2">
-                      {p.description}
-                    </p>
-                  )}
-                  <p className="text-gold-dark font-semibold mt-2">
-                    ${p.price.toFixed(2)}
-                  </p>
-                </div>
-              </Link>
+              <ProductCard key={p.id} product={p} />
             ))}
           </div>
           {hasMore && (
