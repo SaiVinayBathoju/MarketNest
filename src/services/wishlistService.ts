@@ -32,11 +32,15 @@ export async function addToWishlist(userId: string, productId: string): Promise<
 
   if (existing) {
     // Already exists, return the existing item
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('wishlist_items')
       .select('*')
       .eq('id', existing.id)
       .single()
+    if (error) throw error
+    if (!data) {
+      throw new Error('Wishlist item not found after existing check')
+    }
     return data as WishlistItem
   }
 

@@ -69,12 +69,14 @@ export async function submitRating(
   reviewText?: string
 ): Promise<ProductRating> {
   // Check if user already rated this product
-  const { data: existing } = await supabase
+  const { data: existingRaw } = await supabase
     .from('product_ratings')
     .select('id')
     .eq('user_id', userId)
     .eq('product_id', productId)
     .single()
+
+  const existing = existingRaw as { id: string } | null
 
   if (existing) {
     // Update existing rating
