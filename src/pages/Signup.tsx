@@ -20,6 +20,7 @@ export function Signup() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (loading) return
     setError('')
     const nameErr = validateRequired(name, 'Name')
     const emailErr = validateEmail(email)
@@ -41,7 +42,14 @@ export function Signup() {
         setSuccess('Check your email to confirm your account, then sign in.')
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Sign up failed')
+      const message = err instanceof Error ? err.message : 'Sign up failed'
+      if (message.toLowerCase().includes('rate limit')) {
+        setError(
+          'We’ve already sent a verification email. Please check your inbox (and spam) and wait a few minutes before trying again.'
+        )
+      } else {
+        setError(message)
+      }
     } finally {
       setLoading(false)
     }

@@ -20,7 +20,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-cream">
       <header className="sticky top-0 z-50 bg-cream/90 backdrop-blur-md border-b border-sand">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
           <Link
             to="/"
             className="flex items-center gap-2.5 text-2xl font-display font-medium text-ink tracking-wide hover:text-gold-dark transition-colors"
@@ -28,7 +28,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <img src="/logo.svg" alt="" className="w-9 h-9" />
             MarketNest
           </Link>
-          <nav className="flex items-center gap-6 sm:gap-8">
+          <nav className="flex items-center gap-4 sm:gap-8 flex-wrap justify-end">
             {session ? (
               <>
                 {profile?.role === 'brand' && (
