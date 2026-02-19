@@ -46,8 +46,9 @@ export async function getProductRatingStats(productId: string): Promise<ProductR
       return { averageRating: 0, totalRatings: 0 }
     }
 
-    const totalRatings = data.length
-    const sum = data.reduce((acc, r) => acc + r.rating, 0)
+    const typed = data as { rating: number }[]
+    const totalRatings = typed.length
+    const sum = typed.reduce((acc, r) => acc + r.rating, 0)
     const averageRating = sum / totalRatings
 
     return {
@@ -79,10 +80,11 @@ export async function submitRating(
     // Update existing rating
     const { data, error } = await supabase
       .from('product_ratings')
+      // Cast payload to `never` to appease overly strict generic typing
       .update({
         rating,
         review_text: reviewText || null
-      })
+      } as never)
       .eq('id', existing.id)
       .select()
       .single()
@@ -92,12 +94,13 @@ export async function submitRating(
     // Create new rating
     const { data, error } = await supabase
       .from('product_ratings')
+      // Cast payload to `never` to appease overly strict generic typing
       .insert({
         user_id: userId,
         product_id: productId,
         rating,
         review_text: reviewText || null
-      })
+      } as never)
       .select()
       .single()
     if (error) throw error

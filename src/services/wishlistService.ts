@@ -21,12 +21,14 @@ export async function fetchWishlistItems(userId: string): Promise<WishlistItemWi
 
 export async function addToWishlist(userId: string, productId: string): Promise<WishlistItem> {
   // Check if already exists to prevent duplicates
-  const { data: existing } = await supabase
+  const { data: existingRaw } = await supabase
     .from('wishlist_items')
     .select('id')
     .eq('user_id', userId)
     .eq('product_id', productId)
     .single()
+
+  const existing = existingRaw as { id: string } | null
 
   if (existing) {
     // Already exists, return the existing item
@@ -40,10 +42,11 @@ export async function addToWishlist(userId: string, productId: string): Promise<
 
   const { data, error } = await supabase
     .from('wishlist_items')
+    // Cast to `never` to satisfy Supabase generic when schema typing is out of sync
     .insert({
       user_id: userId,
       product_id: productId
-    })
+    } as never)
     .select()
     .single()
   if (error) throw error

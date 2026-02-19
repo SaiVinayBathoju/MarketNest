@@ -39,9 +39,10 @@ export async function addToCart(
   if (existingItem) {
     const { data, error } = await supabase
       .from('cart_items')
+      // Explicitly cast payload to avoid overly strict generic inference in some TS setups
       .update({
         quantity: existingItem.quantity + quantity,
-      })
+      } as Partial<CartItem> as never)
       .eq('id', existingItem.id)
       .select()
       .single()
@@ -52,11 +53,12 @@ export async function addToCart(
 
   const { data, error } = await supabase
     .from('cart_items')
+    // Cast to `never` to satisfy Supabase's generated types when schema typing is out of sync
     .insert({
       user_id: userId,
       product_id: productId,
       quantity,
-    })
+    } as never)
     .select()
     .single()
 
@@ -76,7 +78,7 @@ export async function updateCartItemQuantity(
 
   const { data, error } = await supabase
     .from('cart_items')
-    .update({ quantity })
+    .update({ quantity } as Partial<CartItem> as never)
     .eq('id', cartItemId)
     .select()
     .single()
