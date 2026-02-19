@@ -5,7 +5,6 @@ import {
   fetchWishlistItems,
   addToWishlist as addToWishlistService,
   removeFromWishlist as removeFromWishlistService,
-  isInWishlist as isInWishlistService,
   type WishlistItemWithProduct
 } from '../services/wishlistService'
 import type { Product } from '../types/database'
