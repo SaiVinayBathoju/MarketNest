@@ -40,18 +40,60 @@ A full-stack mini fashion marketplace web application with role-based access for
 ```
 MarketNest/
 ├── public/
+│   └── logo.svg
 ├── src/
-│   ├── components/     # Layout, ProtectedRoute
-│   ├── contexts/       # AuthContext
-│   ├── lib/            # Supabase client
-│   ├── pages/          # Route pages
-│   ├── services/       # auth, product, profile, storage
-│   ├── types/          # Database types
-│   └── utils/          # Validation
+│   ├── components/          # Reusable UI
+│   │   ├── Layout.tsx       # Header, nav, main wrapper
+│   │   ├── ProtectedRoute.tsx
+│   │   ├── ProductCard.tsx
+│   │   ├── CartItem.tsx
+│   │   ├── WishlistButton.tsx
+│   │   └── RatingStars.tsx
+│   ├── contexts/
+│   │   ├── AuthContext.tsx
+│   │   ├── CartContext.tsx
+│   │   ├── WishlistContext.tsx
+│   │   └── MarketplaceContext.tsx
+│   ├── lib/
+│   │   └── supabase.ts      # Supabase client init
+│   ├── pages/
+│   │   ├── Home.tsx
+│   │   ├── Login.tsx
+│   │   ├── Signup.tsx
+│   │   ├── Marketplace.tsx
+│   │   ├── ProductDetail.tsx
+│   │   ├── BrandDashboard.tsx
+│   │   ├── ProductForm.tsx
+│   │   ├── Profile.tsx
+│   │   ├── Cart.tsx
+│   │   ├── Wishlist.tsx
+│   │   └── Checkout.tsx
+│   ├── services/            # API / Supabase calls
+│   │   ├── authService.ts
+│   │   ├── profileService.ts
+│   │   ├── productService.ts
+│   │   ├── cartService.ts
+│   │   ├── wishlistService.ts
+│   │   ├── ratingService.ts
+│   │   └── storageService.ts
+│   ├── types/
+│   │   └── database.ts      # TS types for tables
+│   ├── utils/
+│   │   └── validation.ts
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
 ├── supabase/
-│   └── migrations/     # SQL schema & RLS
+│   └── migrations/
+│       ├── 00001_init_schema.sql
+│       ├── 00002_add_ecommerce_tables.sql
+│       └── 00003_fix_ratings_public_read.sql
 ├── .env.example
-└── README.md
+├── vercel.json              # SPA rewrite for routing
+├── package.json
+├── vite.config.ts
+├── tailwind.config.js
+└── tsconfig.json
 ```
 
 ---
